@@ -6,5 +6,7 @@ mod util;
 
 
 fn main() {
-    println!("Hello, world!");
+    let config = config::Config::load();
+    println!("{:#?}", config);
+    config.save_to_ini().unwrap();
 }
