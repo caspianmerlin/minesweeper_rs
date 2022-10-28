@@ -8,16 +8,16 @@ use winit::dpi::PhysicalPosition;
 
 #[derive(Debug)]
 pub struct Config {
-    graphics_type:      GraphicsType,
-    legacy_rng:         bool,
-    difficulty:         Difficulty,
-    window_position:    PhysicalPosition<i32>,
-    sound_enabled:      bool,
-    marks_enabled:      bool,
-    colour_enabled:     bool,
-    beginner_score:     HighScore,
-    intermediate_score: HighScore,
-    expert_score:       HighScore,
+    pub graphics_type:      GraphicsType,
+    pub legacy_rng:         bool,
+    pub difficulty:         Difficulty,
+    pub window_position:    PhysicalPosition<i32>,
+    pub sound_enabled:      bool,
+    pub marks_enabled:      bool,
+    pub colour_enabled:     bool,
+    pub beginner_score:     HighScore,
+    pub intermediate_score: HighScore,
+    pub expert_score:       HighScore,
 }
 impl Default for Config {
     fn default() -> Config {
@@ -182,6 +182,10 @@ impl Difficulty {
 
     pub fn dimensions(&self) -> (u32, u32) {
         (self.grid_width, self.grid_height)
+    }
+
+    pub fn num_mines(&self) -> u32 {
+        self.num_mines
     }
 
     pub fn new(grid_width: u32, grid_height: u32, num_mines: u32) -> Difficulty {

@@ -1,5 +1,7 @@
+use rand::{rngs::ThreadRng, Rng};
+
 pub trait RandomNumberGenerator {
-    fn random_u32(&self, max: u32) -> u32;
+    fn random_u32(&mut self, max: u32) -> usize;
 }
 
 pub struct LegacyRandomNumberGenerator;
@@ -15,6 +17,30 @@ impl LegacyRandomNumberGenerator {
         LegacyRandomNumberGenerator {}
     }
 }
+impl RandomNumberGenerator for LegacyRandomNumberGenerator {
+    fn random_u32(&mut self, max: u32) -> usize {
+        unsafe { (rand() as u32 % max) as usize }
+    }
+}
+
+pub struct ModernRandomNumberGenerator {
+    inner: ThreadRng,
+}
+impl ModernRandomNumberGenerator {
+    pub fn new() -> ModernRandomNumberGenerator {
+        ModernRandomNumberGenerator {
+            inner: rand::thread_rng()
+        }
+    }
+}
+impl RandomNumberGenerator for ModernRandomNumberGenerator {
+    fn random_u32(&mut self, max: u32) -> usize {
+        self.inner.gen_range(0..=max) as usize
+    }
+}
+
+
+
 
 extern "C" {
     fn rand() -> i32;
