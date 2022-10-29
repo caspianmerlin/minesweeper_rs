@@ -5,6 +5,18 @@ edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
+
+
+[features]
+default = ["egl", "glx", "x11", "wayland", "wgl"]
+egl = ["glutin/egl"]
+glx = ["glutin/glx", "glutin/x11", "winit/x11", "x11"]
+wgl = ["glutin/wgl"]
+x11 = ["glutin/x11", "winit/x11"]
+wayland = ["glutin/wayland", "winit/wayland", "winit/wayland-dlopen", "winit/wayland-csd-adwaita-notitle"]
+
+
+
 [dependencies]
 dirs = "4.0.0"
 rand = "0.8.5"
@@ -13,6 +25,9 @@ winit = "0.27.5"
 glutin = "0.30.0"
 gl = "0.14.0"
 raw-window-handle = "0.5.0"
+
+[build-dependencies]
+cfg_aliases = "0.1.1"
 
 [target.'cfg(target_os = "linux")'.dependencies]
 nix = "0.25.0"
