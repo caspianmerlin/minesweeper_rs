@@ -26,12 +26,11 @@ fn main() {
     let mut window = Some(WindowBuilder::new().with_transparent(true).with_decorations(true).with_resizable(false).with_title("Minesweeper").with_inner_size(window_size).with_position(config.window_position).build(&event_loop).unwrap());
     let raw_window_handle = window.as_ref().map(|w| w.raw_window_handle());
     let gl_display = unsafe {
-        #[cfg(wgl_backend)]
+        #[cfg(target_os = "windows")]
         let preference = DisplayApiPreference::Wgl(Some(raw_window_handle.unwrap()));
         
-        #[cfg(glx_backend)]
+        #[cfg(target_os = "linux")]
         let preference = DisplayApiPreference::Glx(Box::new(winit::platform::unix::register_xlib_error_hook));
-
         Display::new(raw_display, preference).unwrap()
     };
     println!("Running on: {}", gl_display.version_string());
